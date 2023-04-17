@@ -65,8 +65,9 @@ module.exports = {
                 // basically else statement
                 const targetMember = interaction.targetMember;
                 const targetUser = interaction.targetUser;
+                const targetId = interaction.targetId;
 
-                await interaction.reply({ content: `${username} targetted ${targetUser.username} user or ${targetMember.username} member.` });
+                await interaction.reply({ content: `${username} targetted ${targetUser.username} user or ${targetMember.username} member, whose id is ${targetId}.` });
             }
         } else if (interaction.isModalSubmit()) {
             if (interaction.customId === 'myModal') {

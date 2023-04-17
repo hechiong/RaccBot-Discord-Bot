@@ -2,7 +2,7 @@ const { ApplicationCommandType, ContextMenuCommandBuilder } = require('discord.j
 
 module.exports = {
     data: new ContextMenuCommandBuilder()
-        .setName('context-menus')
+        .setName('user-context-menus')
         .setType(ApplicationCommandType.User),
     async execute(interaction) {
         // logic in interactionCreate.js
