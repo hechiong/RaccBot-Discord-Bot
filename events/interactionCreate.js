@@ -60,14 +60,14 @@ module.exports = {
             if (interaction.isMessageContextMenuCommand()) {
                 const targetMsg = interaction.targetMessage;
 
-                await interaction.reply({ content: `${username} targetted ${targetMsg.content}.` });
+                await interaction.reply({ content: `${username} targetted '${targetMsg.content}.` });
             } else if (interaction.isUserContextMenuCommand()) {
                 // basically else statement
                 const targetMember = interaction.targetMember;
                 const targetUser = interaction.targetUser;
                 const targetId = interaction.targetId;
 
-                await interaction.reply({ content: `${username} targetted ${targetUser.username} user or ${targetMember.username} member, whose id is ${targetId}.` });
+                await interaction.reply({ content: `${username} targetted ${targetUser.username} user or ${targetMember} member, whose id is ${targetId}.` });
             }
         } else if (interaction.isModalSubmit()) {
             if (interaction.customId === 'myModal') {
