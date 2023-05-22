@@ -1,4 +1,4 @@
-const { Events } = require('discord.js');
+const { Collection, Events } = require('discord.js');
 // const wait = require('node:timers/promises').setTimeout;
 
 module.exports = {
@@ -6,7 +6,31 @@ module.exports = {
     async execute(interaction) {
         const commandName = interaction.commandName;
         const command = interaction.client.commands.get(commandName);
+        const cooldowns = interaction.client.cooldowns;
         const username = interaction.user.username;
+
+        // Cooldown logic
+        if (!cooldowns.has(command.data.name)) {
+            cooldowns.set(command.data.name, new Collection());
+        }
+
+        const now = Date.now();
+        const timestamps = cooldowns.get(command.data.name);
+        const defaultCooldownDuration = 3;
+        const cooldownAmount = (command.cooldown ?? defaultCooldownDuration) * 1000;
+
+        if (timestamps.has(interaction.user.id)) {
+            const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
+
+            if (now < expirationTime) {
+                const expiredTimestamp = Math.round(expirationTime / 1000);
+
+                return interaction.reply({ content: `You can use \`${command.data.name}\` <t:${expiredTimestamp}:R>.`, ephemeral: true });
+            }
+        }
+
+        timestamps.set(interaction.user.id, now);
+        setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
 
         if (interaction.isAutocomplete()) {
             if (!command) {
