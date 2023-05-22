@@ -32,6 +32,7 @@ module.exports = {
         timestamps.set(interaction.user.id, now);
         setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
 
+        // Different logic for different interactions
         if (interaction.isAutocomplete()) {
             if (!command) {
                 console.error(`No command matching ${commandName} was found.`);
